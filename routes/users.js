@@ -81,7 +81,7 @@ router.post('/register', (req, res) => {
   }
 });
 
-// Login
+// CLIENT LOGIN
 router.post('/login', (req, res, next) => {
   passport.authenticate('local', {
     successRedirect: '/dashboard',
@@ -90,7 +90,7 @@ router.post('/login', (req, res, next) => {
   })(req, res, next);
 });
 
-// Login
+// STAFF LOGIN
 router.post('/stafflogin', (req, res, next) => {
   passport.authenticate('local', {
     successRedirect: '/staffdashboard',
@@ -99,7 +99,7 @@ router.post('/stafflogin', (req, res, next) => {
   })(req, res, next);
 });
 
-// Logout
+// LOGOUT
 router.get('/logout', (req, res) => {
   req.logout();
   req.flash('success_msg', 'You are logged out');
