@@ -7,7 +7,7 @@ const Request = require('../models/AdoptReq');
 
 const express = require('express');
 const router = express.Router();
-const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
+const { ensureAuthenticated, ensureStaffAuthenticated, forwardAuthenticated } = require('../config/auth');
 
 
 // RENDERS THE WELCOME LOGIN PAGE
@@ -43,14 +43,14 @@ router.get('/UserReqList', ensureAuthenticated, (req, res) => {
 //STAFF GET ROUTES
 //====================================================================================
 // RENDERS THE STAFF DASHBOARD
-router.get('/staffdashboard', ensureAuthenticated, (req, res) =>
+router.get('/staffdashboard', ensureStaffAuthenticated, (req, res) =>
   res.render('staffdashboard', {
     user: req.user
   })
 );
 
 // RENDERS THE STAFF ANIMAL LIST PAGE THAT SHOWS THE LIST OF ANIMALS
-router.get('/staffAnimal_list', ensureAuthenticated, (req, res) => {
+router.get('/staffAnimal_list', ensureStaffAuthenticated, (req, res) => {
   Animal.find({}, function(err, animals) {
     res.render('staffAnimal_list', {
       user: req.user,
@@ -61,7 +61,7 @@ router.get('/staffAnimal_list', ensureAuthenticated, (req, res) => {
 });
 
 // SHOWS THE STAFF ALL OF THE PENDING REQUESTS FROM ALL USERS
-router.get('/pendingRequests', ensureAuthenticated, (req, res) => {
+router.get('/pendingRequests', ensureStaffAuthenticated, (req, res) => {
   Request.find({RequestStatus : 'Pending'}, function(err, requests) {
     res.render('pendingRequests', {
       user: req.user,
@@ -72,7 +72,7 @@ router.get('/pendingRequests', ensureAuthenticated, (req, res) => {
 });
 
 // SHOWS THE STAFF MEMBERS ALL APPROVED, DENIED AND PENDING ADOPTION REQUESTS
-router.get('/staffAllStatus', ensureAuthenticated, (req, res) => {
+router.get('/staffAllStatus', ensureStaffAuthenticated, (req, res) => {
   Request.find({}, function(err, requests) {
     res.render('staffAllStatus', {
       user: req.user,
